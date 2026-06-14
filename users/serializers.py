@@ -1,0 +1,33 @@
+from rest_framework import serializers
+from .models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'password',
+            'first_name',
+            'last_name',
+            'email',
+            'age',
+            'can_be_contacted',
+            'can_data_be_shared',
+        ]
+
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+
+    def validate(self, value):
+        if value < 15:
+            raise serializers.ValidationError(
+                "Un utilisateur doit avoir au moins 15 ans"
+            )
+
+        return value
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
