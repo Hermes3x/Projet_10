@@ -21,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
             'password': {'write_only': True},
         }
 
-    def validate(self, value):
+    def validate_age(self, value):
         if value < 15:
             raise serializers.ValidationError(
                 "Un utilisateur doit avoir au moins 15 ans"
