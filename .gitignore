@@ -2,10 +2,29 @@
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
 
 # Django
 db.sqlite3
 *.log
+media/
+staticfiles/
 
 # Environnement
 .env
+.venv/
+venv/
+env/
+
+# Pipenv (le virtualenv est hors projet, mais par précaution)
+.pipenv/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
