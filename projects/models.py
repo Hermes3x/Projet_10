@@ -73,7 +73,10 @@ class Issue(models.Model):
     # Je déduis la 2eme solution car sinon author = utilisateur
     assignation = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        # SET_NULL = si l'utilisateur est supprimé l'issue ne disaprait pas
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='assigned_issues'
     )
 
@@ -114,7 +117,9 @@ class Issue(models.Model):
     # L'auteur du probleme
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        # SET_NULL = issue conservé même si auteur est supprimé
+        on_delete=models.SET_NULL,
+        null=True,
         related_name='authored_issues'
     )
 
@@ -127,7 +132,7 @@ class Issue(models.Model):
 
 class Comment(models.Model):
     # Corps du commentaire
-    description = models.TextField(blank=True)
+    description = models.TextField()
 
     # Unique ID
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
