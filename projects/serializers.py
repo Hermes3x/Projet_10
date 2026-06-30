@@ -3,6 +3,7 @@ from .models import Project, Contributor, Issue, Comment
 
 
 class ProjectSerializer(ModelSerializer):
+
     class Meta:
         model = Project
         fields = [
@@ -27,6 +28,7 @@ class ContributorSerializer(ModelSerializer):
 
 
 class IssueSerializer(ModelSerializer):
+
     class Meta:
         model = Issue
         fields = [
