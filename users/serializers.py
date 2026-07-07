@@ -31,3 +31,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+
+    def update(self, instance, validated_data):
+        # On retire le password des données normales
+        password = validated_data.pop('password', None)
+
+        # On met à jour les autres champs normalement (email, age…)
+        user = super().update(instance, validated_data)
+
+        # Si un password a été fourni, on le hashe correctement
+        if password is not None:
+            user.set_password(password)
+            user.save()
+
+        return user
