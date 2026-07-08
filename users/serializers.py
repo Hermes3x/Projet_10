@@ -45,3 +45,20 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
         return user
+
+    def to_representation(self, instance):
+        # La sortie JSON normale (avec tous les champs sauf password)
+        representation = super().to_representation(instance)
+
+        request = self.context.get('request')
+
+        # Si on regarde le profil d'un AUTRE utilisateur → on masque ses données perso
+        if request and request.user.is_authenticated and instance != request.user:
+            champs_prives = [
+                'first_name', 'last_name', 'email',
+                'age', 'can_be_contacted', 'can_data_be_shared',
+            ]
+            for champ in champs_prives:
+                representation.pop(champ, None)
+
+        return representation
