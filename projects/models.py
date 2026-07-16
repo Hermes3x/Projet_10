@@ -23,7 +23,8 @@ class Project(models.Model):
     # L'auteur du projet
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
         related_name='authored_projects')
 
     # Horodatage de la ressource

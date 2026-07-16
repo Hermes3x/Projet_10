@@ -30,4 +30,4 @@ env/
 Thumbs.db
 
 # Préparation soutenance (perso, non livré)
-SCENARIO_DEMO.md
+SCENARIO_DEMO*.md
