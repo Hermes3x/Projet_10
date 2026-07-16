@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ValidationError
 from .models import Project, Contributor, Issue, Comment
 
 
@@ -44,6 +44,23 @@ class IssueSerializer(ModelSerializer):
             'created_time',
         ]
         read_only_fields = ['author', 'created_time']
+
+    def validate(self, attrs):
+        # Le projet vient du corps de la requête (création) ou de l'issue existante (mise à jour partielle)
+        project = attrs.get('project') or getattr(self.instance, 'project', None)
+        assignee = attrs.get('assignation')
+
+        # On ne peut assigner l'issue qu'à un contributeur du projet concerné
+        if assignee is not None and project is not None:
+            is_contributor = Contributor.objects.filter(
+                user=assignee, project=project
+            ).exists()
+            if not is_contributor:
+                raise ValidationError({
+                    'assignation': "L'utilisateur assigné doit être contributeur du projet."
+                })
+
+        return attrs
 
 
 class CommentSerializer(ModelSerializer):

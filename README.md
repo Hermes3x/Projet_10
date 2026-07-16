@@ -108,8 +108,9 @@ L'API utilise des tokens JWT. Pour accéder aux endpoints protégés :
 | Méthode | URL | Description | Accès |
 |---|---|---|---|
 | POST | `/api/users/` | Inscription | Public |
-| GET | `/api/users/` | Son propre profil | Authentifié |
-| GET/PUT/PATCH/DELETE | `/api/users/{id}/` | Gérer son profil | Propriétaire |
+| GET | `/api/users/` | Liste des utilisateurs (données personnelles des autres masquées — RGPD) | Authentifié |
+| GET | `/api/users/{id}/` | Détail d'un utilisateur (données personnelles masquées si ce n'est pas soi) | Authentifié |
+| PUT/PATCH/DELETE | `/api/users/{id}/` | Modifier / supprimer son propre profil | Propriétaire |
 | POST | `/api/token/` | Obtenir un token | Public |
 | POST | `/api/token/refresh/` | Rafraîchir le token | Public |
 | GET/POST | `/api/projects/` | Lister / créer un projet | Contributeur |
@@ -131,5 +132,3 @@ L'API utilise des tokens JWT. Pour accéder aux endpoints protégés :
 
 Tous les endpoints peuvent être testés avec **Postman**, `curl`, ou l'interface
 navigable de Django REST Framework.
-</content>
-</invoke>
