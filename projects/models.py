@@ -23,8 +23,7 @@ class Project(models.Model):
     # L'auteur du projet
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.CASCADE,
         related_name='authored_projects')
 
     # Horodatage de la ressource
@@ -67,11 +66,7 @@ class Issue(models.Model):
     # Description du problème
     description = models.TextField(blank=True)
 
-    # L'utilisateur auquel le problèle est assign
-    # Je ne connais pas bien le fonctionnement de ce genre de projet = 
-    # Un utilisateur crée un probleme qui le concerne ? dans ce cas foreykey -> user loggé
-    # Ou un utilisateur crée un problème pour un autre utilisateur (qui ne se log pas forcément sur l'application)?
-    # Je déduis la 2eme solution car sinon author = utilisateur
+    # L'utilisateur auquel le problèle est assigné
     assignation = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         # SET_NULL = si l'utilisateur est supprimé l'issue ne disaprait pas
@@ -81,7 +76,6 @@ class Issue(models.Model):
         related_name='assigned_issues'
     )
 
-    # Priorité
     PRIORITY_CHOICES = [
         ('low', 'LOW'),
         ('medium', 'MEDIUM'),
@@ -90,7 +84,6 @@ class Issue(models.Model):
 
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES)
 
-    # Tag
     TAG_CHOICES = [
         ('bug', 'BUG'),
         ('feature', 'FEATURE'),
@@ -99,7 +92,6 @@ class Issue(models.Model):
 
     tag = models.CharField(max_length=20, choices=TAG_CHOICES)
 
-    # Status
     STATUS_CHOICES = [
         ('to_do', 'To DO'),
         ('in_progress', 'In Progress'),
@@ -118,9 +110,7 @@ class Issue(models.Model):
     # L'auteur du probleme
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        # SET_NULL = issue conservé même si auteur est supprimé
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.CASCADE,
         related_name='authored_issues'
     )
 

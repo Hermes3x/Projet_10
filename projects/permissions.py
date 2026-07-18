@@ -17,9 +17,9 @@ class IsProjectAuthorOrReadOnly(permissions.BasePermission):
     """Seul l'auteur du projet peut modifier/supprimer ; les autres, lecture seule."""
 
     def has_object_permission(self, request, view, obj):
-        # Lecture (GET, HEAD, OPTIONS) → autorisée pour tout contributeur
+        """Lecture (GET, HEAD, OPTIONS) → autorisée pour tout contributeur""" 
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        # Écriture (DELETE, PATCH…) → seulement l'auteur du projet lié
+        """Écriture (DELETE, PATCH…) → seulement l'auteur du projet lié"""
         return obj.project.author == request.user
